@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.9.4'
+
+}
+
+ext {
+    protoVersion = '3.24.4'
+    grpcVersion = '1.59.0'
+}
+
+sourceSets.main.java.srcDir new File(getLayout().getBuildDirectory().getAsFile().get(), 'generated/source')
+
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protoVersion"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    runtimeOnly "io.grpc:grpc-netty-shaded:$grpcVersion"
+    implementation "io.grpc:grpc-protobuf:$grpcVersion"
+    implementation "io.grpc:grpc-stub:$grpcVersion"
+    implementation "io.grpc:grpc-services:$grpcVersion"
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
+    implementation "com.google.protobuf:protobuf-java-util:$protoVersion"
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.34'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+}
+
+test {
+    useJUnitPlatform()
+}
