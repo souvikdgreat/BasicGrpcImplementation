@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package max;
+
+option java_package = "com.proto.max";
+
+option java_multiple_files = true;
+
+
+message MaxRequest {
+    int32 num = 1;
+}
+
+message MaxResponse {
+    int32 maximum = 1;
+}
+
+
+service GetMaxService {
+    rpc GetMax (stream MaxRequest) returns (stream MaxResponse);
+}
