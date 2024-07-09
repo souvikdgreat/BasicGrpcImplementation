@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package average;
+
+option java_multiple_files = true;
+
+option java_package = "com.proto.average";
+
+message AverageRequest {
+    int32 num = 1;
+}
+
+
+message AverageResponse {
+    double avg = 1;
+}
+
+
+service AverageCalculator {
+    rpc getAverage (stream AverageRequest) returns (AverageResponse);
+}
