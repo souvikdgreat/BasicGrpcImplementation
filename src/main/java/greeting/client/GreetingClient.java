@@ -16,7 +16,8 @@ public class GreetingClient {
                 .usePlaintext()
                 .build();
 
-        greet(channel);
+        // greet(channel);
+        greetManyTimes(channel);
 
         System.out.println("Shutting down the client");
         channel.shutdown();
@@ -30,6 +31,16 @@ public class GreetingClient {
         GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
         GreetingResponse greet = stub.greet(request);
         System.out.println(greet.getResult());
+    }
+
+    public static void greetManyTimes(ManagedChannel channel) {
+        GreetingRequest request = GreetingRequest.newBuilder()
+                .setFirstName("Souvik")
+                .build();
+
+        GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+        stub.greetManyTimes(request)
+                .forEachRemaining(response -> System.out.println(response.getResult()));
 
 
     }
