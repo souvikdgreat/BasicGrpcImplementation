@@ -1,6 +1,9 @@
 package greeting.client;
 
 
+import com.proto.greeting.GreetingRequest;
+import com.proto.greeting.GreetingResponse;
+import com.proto.greeting.GreetingServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -13,8 +16,20 @@ public class GreetingClient {
                 .usePlaintext()
                 .build();
 
+        greet(channel);
+
         System.out.println("Shutting down the client");
         channel.shutdown();
+    }
+
+    public static void greet(ManagedChannel channel) {
+        GreetingRequest request = GreetingRequest.newBuilder()
+                .setFirstName("Souvik")
+                .build();
+
+        GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+        GreetingResponse greet = stub.greet(request);
+        System.out.println(greet.getResult());
 
 
     }

@@ -9,8 +9,14 @@ ext {
     grpcVersion = '1.59.0'
 }
 
-sourceSets.main.java.srcDir new File(getLayout().getBuildDirectory().getAsFile().get(), 'generated/source')
 
+sourceSets{
+    main{
+        java {
+            srcDir 'build/generated/source'
+        }
+    }
+}
 
 protobuf {
     protoc {

@@ -11,6 +11,7 @@ public class GreetingServer {
         System.out.println("Starting Greeting Server");
 
         Server server = ServerBuilder.forPort(port)
+                .addService(new GreetingServiceImpl())
                 .build();
 
         server.start();
